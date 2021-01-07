@@ -22,6 +22,10 @@ function useKey(key,cb){
 
 function App() {
   useKey("Enter", handleClick);
+  const input=useRef();
+  useEffect(()=>{
+    input.current.focus();
+  },[]);
   const [sendMessage,setSendMessage]=useState('');
   let [displayMessage,setDisplayMessage]=useState('');
   let [messageArray,setMessageArray]=useState([]);
@@ -36,12 +40,6 @@ function App() {
   }
   return (
     <body>
-      <nav>
-        <ul>
-          <li>Contacts</li>
-          <li>Chats</li>
-        </ul>
-      </nav>
       <h1>
       <img src='./images/icon.png' alt=""/>Connect to the world
       </h1>
@@ -51,7 +49,7 @@ function App() {
             return <p>{message}</p>
           })
         }
-        <input type="text" placeholder="Send a message" value={sendMessage} onChange={handleChange} required/>
+        <input type="text" placeholder="Send a message" value={sendMessage} onChange={handleChange} ref={input} required/>
         <button type="button" onClick={handleClick}>Send</button>
       </div>
     </body>
