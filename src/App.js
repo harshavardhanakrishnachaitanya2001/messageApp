@@ -1,16 +1,33 @@
-//Input field to be pushed to the bottom of the page
-//when send is clicked, message must be displayed above the input
-import React, {useState} from 'react'
+import React, {useState, useEffect,useRef} from 'react'
 import './App.css';
 
+
+
+//Designing custom hook to handle key presses
+function useKey(key,cb){
+  const callbackRef=useRef(cb);
+  useEffect(()=>{
+    callbackRef.current=cb;
+  })
+  useEffect(()=>{
+    function handle(event){
+      if(event.code===key){
+        callbackRef.current(event)
+      }
+    }
+    document.addEventListener("keypress",handle);
+    return () => document.removeEventListener("keypress",handle)
+  },[key]);
+}
+
 function App() {
+  useKey("Enter", handleClick);
   const [sendMessage,setSendMessage]=useState('');
   let [displayMessage,setDisplayMessage]=useState('');
   let [messageArray,setMessageArray]=useState([]);
   function handleChange(e){
     e.preventDefault();
     setSendMessage(e.target.value);
-
   }
   function handleClick(){
     setDisplayMessage(sendMessage);
