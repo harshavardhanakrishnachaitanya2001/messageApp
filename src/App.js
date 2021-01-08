@@ -1,8 +1,5 @@
 import React, {useState, useEffect,useRef} from 'react'
 import './App.css';
-
-
-
 //Designing custom hook to handle key presses
 function useKey(key,cb){
   const callbackRef=useRef(cb);
@@ -27,16 +24,15 @@ function App() {
     input.current.focus();
   },[]);
   const [sendMessage,setSendMessage]=useState('');
-  let [displayMessage,setDisplayMessage]=useState('');
   let [messageArray,setMessageArray]=useState([]);
   function handleChange(e){
     e.preventDefault();
     setSendMessage(e.target.value);
   }
   function handleClick(){
-    setDisplayMessage(sendMessage);
-    setMessageArray( arr => [...arr, `${displayMessage}`]);
+    setMessageArray( arr => [...arr, `${sendMessage}`]);
     setSendMessage('');
+    input.current.focus();
   }
   return (
     <body>
@@ -49,7 +45,7 @@ function App() {
             return <p>{message}</p>
           })
         }
-        <input type="text" placeholder="Send a message" value={sendMessage} onChange={handleChange} ref={input} required/>
+        <input type="text" placeholder="Send a message" id="messsanger" value={sendMessage} onChange={handleChange} ref={input} required/>
         <button type="button" onClick={handleClick}>Send</button>
       </div>
     </body>
